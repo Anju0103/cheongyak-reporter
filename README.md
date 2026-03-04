@@ -96,6 +96,8 @@ export OUTPUT_DIR="$PWD/build/feed"
 
 - 공공데이터포털 청약홈 API 목록(국토교통부):
   https://www.data.go.kr/data/15098547/openapi.do
+- Swagger JSON:
+  https://infuser.odcloud.kr/api/stages/37000/api-docs
 - 한국부동산원(REB) 공공데이터 API 기술문서 공지:
   https://www.reb.or.kr/r-one/bbs/view.do?mId=0502000000&ptIdx=569&bIdx=104975&pIdx=100
 
@@ -137,8 +139,19 @@ CLI로 Secrets/Variables 자동 설정:
 cd /Users/hongju/Documents/청약리포터
 ./scripts/setup_github_actions.sh \
   --repo <OWNER/REPO> \
-  --raw-url 'https://example.com/raw.json'
+  --service-key '<DATA_GO_KR_SERVICE_KEY>'
 ```
+
+공식 무순위 API 엔드포인트(기본값):
+
+```text
+https://api.odcloud.kr/api/ApplyhomeInfoDetailSvc/v1/getRemndrLttotPblancDetail
+```
+
+기본 스크립트 동작:
+- `CHEONGYAK_RAW_JSON_URL` 미지정 시 공식 엔드포인트 사용
+- `CHEONGYAK_SERVICE_KEY`가 있으면 `serviceKey` 자동 주입
+- `CHEONGYAK_DATE_FROM`가 있으면 시작일 필터 적용(없으면 최근 120일 기본)
 
 워크플로 수동 실행:
 

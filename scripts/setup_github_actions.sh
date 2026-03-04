@@ -6,8 +6,10 @@ usage() {
 Usage:
   ./scripts/setup_github_actions.sh \
     --repo OWNER/REPO \
-    --raw-url https://example.com/raw.json \
+    [--raw-url https://example.com/raw.json] \
+    [--service-key '<DATA_GO_KR_SERVICE_KEY>'] \
     [--auth-header 'Authorization: Bearer ...'] \
+    [--date-from '2026-01-01'] \
     [--regions '서울,경기'] \
     [--keywords '무순위,잔여,계약취소,사후']
 
@@ -18,7 +20,9 @@ USAGE
 
 REPO=""
 RAW_URL=""
+SERVICE_KEY=""
 AUTH_HEADER=""
+DATE_FROM=""
 REGIONS="서울,경기"
 KEYWORDS="무순위,잔여,계약취소,사후"
 
@@ -32,8 +36,16 @@ while [[ $# -gt 0 ]]; do
       RAW_URL="$2"
       shift 2
       ;;
+    --service-key)
+      SERVICE_KEY="$2"
+      shift 2
+      ;;
     --auth-header)
       AUTH_HEADER="$2"
+      shift 2
+      ;;
+    --date-from)
+      DATE_FROM="$2"
       shift 2
       ;;
     --regions)
@@ -56,8 +68,8 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ -z "$REPO" || -z "$RAW_URL" ]]; then
-  echo "--repo and --raw-url are required"
+if [[ -z "$REPO" ]]; then
+  echo "--repo is required"
   usage
   exit 1
 fi
@@ -70,19 +82,36 @@ fi
 echo "[1/4] Checking gh authentication..."
 gh auth status >/dev/null
 
-echo "[2/4] Setting secret: CHEONGYAK_RAW_JSON_URL"
-printf '%s' "$RAW_URL" | gh secret set CHEONGYAK_RAW_JSON_URL --repo "$REPO"
-
-if [[ -n "$AUTH_HEADER" ]]; then
-  echo "[3/4] Setting secret: CHEONGYAK_AUTH_HEADER"
-  printf '%s' "$AUTH_HEADER" | gh secret set CHEONGYAK_AUTH_HEADER --repo "$REPO"
+if [[ -n "$RAW_URL" ]]; then
+  echo "[2/6] Setting secret: CHEONGYAK_RAW_JSON_URL"
+  printf '%s' "$RAW_URL" | gh secret set CHEONGYAK_RAW_JSON_URL --repo "$REPO"
 else
-  echo "[3/4] Skipping CHEONGYAK_AUTH_HEADER (not provided)"
+  echo "[2/6] Skipping CHEONGYAK_RAW_JSON_URL (not provided; default official endpoint will be used)"
 fi
 
-echo "[4/4] Setting variables"
+if [[ -n "$SERVICE_KEY" ]]; then
+  echo "[3/6] Setting secret: CHEONGYAK_SERVICE_KEY"
+  printf '%s' "$SERVICE_KEY" | gh secret set CHEONGYAK_SERVICE_KEY --repo "$REPO"
+else
+  echo "[3/6] Skipping CHEONGYAK_SERVICE_KEY (not provided)"
+fi
+
+if [[ -n "$AUTH_HEADER" ]]; then
+  echo "[4/6] Setting secret: CHEONGYAK_AUTH_HEADER"
+  printf '%s' "$AUTH_HEADER" | gh secret set CHEONGYAK_AUTH_HEADER --repo "$REPO"
+else
+  echo "[4/6] Skipping CHEONGYAK_AUTH_HEADER (not provided)"
+fi
+
+echo "[5/6] Setting variables"
+if [[ -n "$DATE_FROM" ]]; then
+  gh variable set CHEONGYAK_DATE_FROM --body "$DATE_FROM" --repo "$REPO"
+else
+  gh variable delete CHEONGYAK_DATE_FROM --repo "$REPO" >/dev/null 2>&1 || true
+fi
 gh variable set CHEONGYAK_REGIONS --body "$REGIONS" --repo "$REPO"
 gh variable set CHEONGYAK_KEYWORDS --body "$KEYWORDS" --repo "$REPO"
 
+echo "[6/6] Done"
 echo "Done. Trigger workflow manually:"
 echo "  gh workflow run 'Daily Cheongyak Feed' --repo $REPO"

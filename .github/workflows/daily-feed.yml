@@ -24,7 +24,9 @@ jobs:
       - name: Generate feed
         env:
           CHEONGYAK_RAW_JSON_URL: ${{ secrets.CHEONGYAK_RAW_JSON_URL }}
+          CHEONGYAK_SERVICE_KEY: ${{ secrets.CHEONGYAK_SERVICE_KEY }}
           CHEONGYAK_AUTH_HEADER: ${{ secrets.CHEONGYAK_AUTH_HEADER }}
+          CHEONGYAK_DATE_FROM: ${{ vars.CHEONGYAK_DATE_FROM }}
           CHEONGYAK_REGIONS: ${{ vars.CHEONGYAK_REGIONS }}
           CHEONGYAK_KEYWORDS: ${{ vars.CHEONGYAK_KEYWORDS }}
         run: |
