@@ -79,7 +79,7 @@ if ! command -v gh >/dev/null 2>&1; then
   exit 1
 fi
 
-echo "[1/4] Checking gh authentication..."
+echo "[1/6] Checking gh authentication..."
 gh auth status >/dev/null
 
 if [[ -n "$RAW_URL" ]]; then

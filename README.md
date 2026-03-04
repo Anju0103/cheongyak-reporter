@@ -113,9 +113,10 @@ export OUTPUT_DIR="$PWD/build/feed"
 - `.github/workflows/daily-feed.yml` (매일 KST 08:30 실행)
 
 필수 GitHub Secret:
-- `CHEONGYAK_RAW_JSON_URL`: 원본 API(JSON) URL
+- `CHEONGYAK_SERVICE_KEY`: 공공데이터포털에서 발급받은 인증키
 
 선택 GitHub Secret:
+- `CHEONGYAK_RAW_JSON_URL`: 원본 API(JSON) URL (미지정 시 공식 무순위 엔드포인트 자동 사용)
 - `CHEONGYAK_AUTH_HEADER`: 인증 헤더가 필요할 때 사용  
   예: `Authorization: Bearer abc...`
 
