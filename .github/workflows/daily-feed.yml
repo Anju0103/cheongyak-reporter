@@ -1,0 +1,46 @@
+name: Daily Cheongyak Feed
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 23 * * *' # KST 08:30
+
+permissions:
+  contents: write
+
+jobs:
+  build-feed:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Generate feed
+        env:
+          CHEONGYAK_RAW_JSON_URL: ${{ secrets.CHEONGYAK_RAW_JSON_URL }}
+          CHEONGYAK_AUTH_HEADER: ${{ secrets.CHEONGYAK_AUTH_HEADER }}
+          CHEONGYAK_REGIONS: ${{ vars.CHEONGYAK_REGIONS }}
+          CHEONGYAK_KEYWORDS: ${{ vars.CHEONGYAK_KEYWORDS }}
+        run: |
+          chmod +x ./scripts/generate_feed.py ./scripts/run_daily_feed.sh
+          ./scripts/run_daily_feed.sh ./docs/feed.json
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet docs/feed.json; then
+            echo "No feed changes"
+            exit 0
+          fi
+
+          git add docs/feed.json
+          git commit -m "chore(feed): update daily cheongyak feed"
+          git push

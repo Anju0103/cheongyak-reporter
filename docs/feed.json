@@ -1,0 +1,42 @@
+{
+  "generatedAt": "2026-03-04T12:41:41.817049+09:00",
+  "source": "청약홈",
+  "items": [
+    {
+      "id": "20260304-seoul-gangnam-001",
+      "region": "서울",
+      "city": "강남구",
+      "title": "서울 강남구 OO아파트 무순위(사후) 입주자모집",
+      "category": "APT 무순위/잔여세대",
+      "announcementDate": "2026-03-04",
+      "applyStartDate": "2026-03-06",
+      "applyEndDate": "2026-03-06",
+      "source": "청약홈",
+      "url": "https://www.applyhome.co.kr"
+    },
+    {
+      "id": "20260304-gyeonggi-suwon-001",
+      "region": "경기",
+      "city": "수원시",
+      "title": "경기 수원시 OO자이 계약취소주택 특별공급",
+      "category": "계약취소주택/무순위",
+      "announcementDate": "2026-03-04",
+      "applyStartDate": "2026-03-07",
+      "applyEndDate": "2026-03-07",
+      "source": "청약홈",
+      "url": "https://www.applyhome.co.kr"
+    },
+    {
+      "id": "20260303-gyeonggi-goyang-001",
+      "region": "경기",
+      "city": "고양시",
+      "title": "경기 고양시 OO힐스 잔여세대 모집공고",
+      "category": "APT 무순위/잔여세대",
+      "announcementDate": "2026-03-03",
+      "applyStartDate": "2026-03-05",
+      "applyEndDate": "2026-03-05",
+      "source": "청약홈",
+      "url": "https://www.applyhome.co.kr"
+    }
+  ]
+}
