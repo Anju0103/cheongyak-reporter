@@ -129,6 +129,7 @@ export OUTPUT_DIR="$PWD/build/feed"
 
 앱 설정의 `JSON 피드 URL` 예시:
 - `https://<YOUR_GITHUB_USERNAME>.github.io/<YOUR_REPO_NAME>/feed.json`
+- 현재 저장소 URL: `https://anju0103.github.io/cheongyak-reporter/feed.json`
 
 CLI로 Secrets/Variables 자동 설정:
 

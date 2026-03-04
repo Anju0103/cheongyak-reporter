@@ -38,7 +38,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CheongyakDefaultFeedURL</key>
-	<string>https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPO_NAME/feed.json</string>
+	<string>https://anju0103.github.io/cheongyak-reporter/feed.json</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>
